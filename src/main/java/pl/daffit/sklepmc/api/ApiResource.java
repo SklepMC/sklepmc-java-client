@@ -1,12 +1,15 @@
 package pl.daffit.sklepmc.api;
 
+import javax.ws.rs.HttpMethod;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Map;
+import java.util.Optional;
 
 public final class ApiResource {
 
@@ -15,43 +18,7 @@ public final class ApiResource {
     }
 
     public static <T> T get(ApiContext apiContext, String path, Class<? extends T> clazz, Map<String, String> params) {
-
-        Client client = apiContext.getClient();
-
-        if (params != null) {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                path = replace(path, "{" + entry.getKey() + "}", entry.getValue());
-            }
-        }
-
-        WebTarget target = client.target(apiContext.getMainUrl()).path(path);
-        Response response = target.request(MediaType.APPLICATION_JSON)
-                .header("X-Api-Secret", apiContext.getSecret())
-                .get();
-
-        if (response.getStatus() != 200) {
-            try {
-                ApiError apiError = response.readEntity(ApiError.class);
-                throw new ApiException(apiError, "Failed to GET resource (" + target.getUri() + "). "
-                        + "API returned " + response.getStatus() + " HTTP code "
-                        + "with error: " + apiError.getType() + ", " + apiError.getMessage());
-            } catch (ProcessingException | IllegalStateException exception) {
-                ApiError apiError = new ApiError(ApiError.ErrorType.UNKNOWN.name(), "Unknown error: " + exception.getMessage());
-                throw new ApiException(apiError, "Failed to GET resource (" + target.getUri() + "). "
-                        + "API returned " + response.getStatus() + " HTTP code "
-                        + "with error: " + apiError.getType() + ", " + apiError.getMessage(), exception);
-            }
-        }
-
-        T entity;
-        try {
-            entity = response.readEntity(clazz);
-        } catch (ProcessingException | IllegalStateException exception) {
-            ApiError apiError = new ApiError(ApiError.ErrorType.PARSE_ERROR.name(), "Failed to convert JSON resource.");
-            throw new ApiException(apiError, "Failed to convert resource JSON: " + target.getUri(), exception);
-        }
-
-        return entity;
+        return request(apiContext, path, RequestMethod.GET, clazz, params);
     }
 
     public static <T> T post(ApiContext apiContext, String path, Object body, Class<? extends T> clazz) {
@@ -59,19 +26,43 @@ public final class ApiResource {
     }
 
     public static <T> T post(ApiContext apiContext, String path, Object body, Class<? extends T> clazz, Map<String, String> params) {
+        return request(apiContext, path, RequestMethod.POST, clazz, params, body);
+    }
+
+    public static <T> T request(ApiContext apiContext, String path, RequestMethod method, Class<? extends T> clazz, Map<String, String> params) {
+        return request(apiContext, path, method, clazz, params, "");
+    }
+
+    public static <T> T request(ApiContext apiContext, String path, RequestMethod method, Class<? extends T> clazz, Map<String, String> params, Object body) {
 
         Client client = apiContext.getClient();
 
         if (params != null) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
+
+                if (entry.getValue() == null) {
+                    ApiError apiError = new ApiError(ApiError.ErrorType.INVALID_INPUT.name(),
+                            "Parameter " + entry.getKey() + " is null.");
+                    throw new ApiException(apiError, "Failed to create request: " + apiError.getType() + ", " + apiError.getMessage());
+                }
+
                 path = replace(path, "{" + entry.getKey() + "}", entry.getValue());
             }
         }
 
         WebTarget target = client.target(apiContext.getMainUrl()).path(path);
-        Response response = target.request(MediaType.APPLICATION_JSON)
-                .header("X-Api-Secret", apiContext.getSecret())
-                .post(Entity.entity(body, MediaType.APPLICATION_JSON));
+        Invocation.Builder invocationBuilder = target.request(MediaType.APPLICATION_JSON)
+                .header("X-Api-Secret", apiContext.getSecret());
+        Response response;
+
+        if (method == RequestMethod.GET) {
+            response = invocationBuilder.get();
+        } else if (method == RequestMethod.POST) {
+            response = invocationBuilder.post(Entity.entity(body, MediaType.APPLICATION_JSON));
+        } else {
+            ApiError apiError = new ApiError(ApiError.ErrorType.INVALID_INPUT.name(), "Request method " + method + " is not implemented.");
+            throw new ApiException(apiError, "Failed to create request: " + apiError.getType() + ", " + apiError.getMessage());
+        }
 
         if (response.getStatus() != 200) {
             try {
@@ -123,5 +114,9 @@ public final class ApiResource {
         }
         buf.append(text.substring(start));
         return buf.toString();
+    }
+
+    public enum RequestMethod {
+        GET, POST
     }
 }

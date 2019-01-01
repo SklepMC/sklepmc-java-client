@@ -72,7 +72,7 @@ for (ExecutionTaskInfo executionTask : executionTasks) {
         }
 
         String commandText = command.getText();
-        this.dispatchCommand(commandText);
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandText);
     }
 }
 ```

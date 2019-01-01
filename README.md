@@ -1,39 +1,39 @@
 # SklepMC Java API
-Java implementation of public SklepMC API.
+Implementacja publicznego API SklepMC w Javie.
 
-## Example usage
+## Przykładowe użycie
 ```java
-// credentials
-String shopId = "YOUR-SHOP-ID";
-String secret = "YOUR-SECRET";
+// dane uwierzytelniające
+String shopId = "TWOJE-ID-SKLEPU";
+String secret = "TWOJ-KLUCZ-PRYWATNY";
 
-// create context (in most situations you probably want to store it somewhere)
+// tworzymy context (w większości przypadków należy go gdzieś zapisać)
 ApiContext apiContext = new ApiContext(shopId, secret);
 ```
 
-## Receiving basic data
+## Pobieranie podstawowych informacji
 ```java
-// receive basic shop info
+// informacje o sklepie
 ShopInfo shop = ShopInfo.get(apiContext);
 System.out.println(shop);
 
-// receive server info
+// informacje o serwerze
 int serverId = 1234;
 ServerInfo server = ServerInfo.get(apiContext, serverId);
 System.out.println(server);
 
-// receive service info
+// informacje o usłudze
 int serviceId = 4321;
 ServiceInfo service = ServiceInfo.get(apiContext, serviceId);
 System.out.println(service);
 
-// receive transaction info
+// informacje o transakcji
 String transactionId = "SMC-ABCDFGHI";
 TransactionInfo transaction = TransactionInfo.get(apiContext, transactionId);
 System.out.println(transaction);
 ```
 
-## Receiving and executing transactions
+##Pobieranie i wykonywanie transakcji
 ```java
 ExecutionInfo execution = ExecutionInfo.get(apiContext, serverId);
 List<ExecutionTaskInfo> executionTasks = executionInfo.getExecutionTasks();
@@ -44,26 +44,27 @@ for (ExecutionTaskInfo executionTask : executionTasks) {
     String transactionId = executionTask.getTransactionId();
     boolean requireOnline = executionTask.isRequireOnline();
 
-    // change transaction status to COMPLETED
+    // zmieniamy status transakcji na zakończony (COMPLETED)
     boolean updated;
     try {
         updated = TransactionInfo.updateStatus(apiContext, transactionId, TransactionInfo.TransactionStatus.COMPLETED.name());
     } catch (ApiException exception) {
         ApiError apiError = exception.getApiError();
-        System.out.println("API error: " + apiError.getType() + ", " + apiError.getMessage());
+        System.out.println("Błąd API: " + apiError.getType() + ", " + apiError.getMessage());
         continue;
     }
 
-    // handle failure to prevent multiple executions
+    // sprawdzamy czy wykonano pomyślnie zmianę, aby uniknąć wielokrotnych wykonań
     if (!updated) {
-        System.out.println("Failed to change transaction status: " + transactionId);
+        System.out.println("Nie udało się zmienić statusu transakcji: " + transactionId);
         continue;
     }
 
-    // run commands
+    // wykonujemy komendy transakcji
     for (ExecutionCommandInfo command : commands) {
 
-        // execution requires target to be online, skipping
+        // komenda wymaga aby cel (gracz którego dotyczy) był online, 
+        // sprawdzamy czy gracz jest na serwerze
         if (requireOnline) {
             Player playerExact = Bukkit.getPlayerExact(command.getTarget());
             if (playerExact == null) {

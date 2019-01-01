@@ -33,7 +33,7 @@ TransactionInfo transaction = TransactionInfo.get(apiContext, transactionId);
 System.out.println(transaction);
 ```
 
-##Pobieranie i wykonywanie transakcji
+## Pobieranie i wykonywanie transakcji
 ```java
 ExecutionInfo execution = ExecutionInfo.get(apiContext, serverId);
 List<ExecutionTaskInfo> executionTasks = executionInfo.getExecutionTasks();

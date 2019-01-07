@@ -18,10 +18,7 @@
  */
 package pl.daffit.sklepmc.api;
 
-import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
+import okhttp3.OkHttpClient;
 
 public class ApiContext {
 
@@ -31,12 +28,12 @@ public class ApiContext {
     private final String secret;
 
     private String mainUrl;
-    private Client client;
+    private OkHttpClient client;
 
     public ApiContext(String shopId, String secret) {
         this.shopId = shopId;
         this.secret = secret;
-        this.client = ClientBuilder.newBuilder().register(JacksonJsonProvider.class).build();
+        this.client = new OkHttpClient();
         this.mainUrl = DEFAULT_MAIN_URL;
     }
 
@@ -44,7 +41,7 @@ public class ApiContext {
         return this.secret;
     }
 
-    protected Client getClient() {
+    protected OkHttpClient getClient() {
         return this.client;
     }
 

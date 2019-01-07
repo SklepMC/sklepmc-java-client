@@ -125,7 +125,7 @@ public class TransactionInfo {
         params.put("shopId", apiContext.getShopId());
         params.put("transactionId", transactionId);
 
-        return "OK".equals(ApiResource.post(apiContext, "/{shopId}/transaction/{transactionId}/status", newStatus, String.class, params));
+        return "OK".equals(ApiResource.post(apiContext, "/{shopId}/transaction/{transactionId}/status", newStatus, String.class, params, true));
     }
 
     public enum TransactionStatus {

@@ -44,22 +44,6 @@ for (ExecutionTaskInfo executionTask : executionTasks) {
     String transactionId = executionTask.getTransactionId();
     boolean requireOnline = executionTask.isRequireOnline();
 
-    // zmieniamy status transakcji na zakończony (COMPLETED)
-    boolean updated;
-    try {
-        updated = TransactionInfo.updateStatus(apiContext, transactionId, TransactionInfo.TransactionStatus.COMPLETED.name());
-    } catch (ApiException exception) {
-        ApiError apiError = exception.getApiError();
-        System.out.println("Błąd API: " + apiError.getType() + ", " + apiError.getMessage());
-        continue;
-    }
-
-    // sprawdzamy czy wykonano pomyślnie zmianę, aby uniknąć wielokrotnych wykonań
-    if (!updated) {
-        System.out.println("Nie udało się zmienić statusu transakcji: " + transactionId);
-        continue;
-    }
-
     // wykonujemy komendy transakcji
     for (ExecutionCommandInfo command : commands) {
 
@@ -73,7 +57,23 @@ for (ExecutionTaskInfo executionTask : executionTasks) {
         }
 
         String commandText = command.getText();
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandText);
+        // TODO: wykonywanie komendy, zalezne od platformy
+        // Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandText);
+    }
+
+    // zmieniamy status transakcji na zakończony (COMPLETED)
+    boolean updated;
+    try {
+        updated = TransactionInfo.updateStatus(apiContext, transactionId, TransactionInfo.TransactionStatus.COMPLETED.name());
+    } catch (ApiException exception) {
+        ApiError apiError = exception.getApiError();
+        System.out.println("Błąd API: " + apiError.getType() + ", " + apiError.getMessage());
+        continue;
+    }
+
+    // sprawdzamy czy wykonano pomyślnie zmianę
+    if (!updated) {
+        System.out.println("Nie udało się zmienić statusu transakcji: " + transactionId);
     }
 }
 ```

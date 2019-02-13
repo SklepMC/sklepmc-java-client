@@ -38,6 +38,7 @@ System.out.println(transaction);
 ExecutionInfo execution = ExecutionInfo.get(apiContext, serverId);
 List<ExecutionTaskInfo> executionTasks = executionInfo.getExecutionTasks();
 
+task_execution:
 for (ExecutionTaskInfo executionTask : executionTasks) {
 
     List<ExecutionCommandInfo> commands = executionTask.getCommands();
@@ -52,7 +53,7 @@ for (ExecutionTaskInfo executionTask : executionTasks) {
         if (requireOnline) {
             Player playerExact = Bukkit.getPlayerExact(command.getTarget());
             if (playerExact == null) {
-                continue;
+                continue task_execution;
             }
         }
 

@@ -16,14 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package pl.daffit.sklepmc.api.shop;
+package pl.sklepmc.api.shop;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pl.daffit.sklepmc.api.ApiContext;
-import pl.daffit.sklepmc.api.ApiException;
-import pl.daffit.sklepmc.api.ApiResource;
+import pl.sklepmc.api.ApiContext;
+import pl.sklepmc.api.ApiException;
+import pl.sklepmc.api.ApiResource;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package pl.daffit.sklepmc.api;
+package pl.sklepmc.api;
 
 public class ApiException extends RuntimeException {
 

@@ -16,35 +16,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package pl.daffit.sklepmc.api.shop;
+package pl.sklepmc.api.shop;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pl.daffit.sklepmc.api.ApiContext;
-import pl.daffit.sklepmc.api.ApiException;
-import pl.daffit.sklepmc.api.ApiResource;
+import pl.sklepmc.api.ApiContext;
+import pl.sklepmc.api.ApiException;
+import pl.sklepmc.api.ApiResource;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-public class ShopInfo {
+public class ServerInfo {
 
-    private final String id;
+    private final int id;
     private final String name;
-    private final List<BasicServerInfo> servers;
+    private final List<ServiceInfo> services;
 
     @JsonCreator
-    public ShopInfo(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("servers") List<BasicServerInfo> servers) {
+    public ServerInfo(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("services") List<ServiceInfo> services) {
         this.id = id;
         this.name = name;
-        this.servers = servers;
+        this.services = services;
     }
 
     @JsonProperty("id")
-    public String getId() {
+    public int getId() {
         return this.id;
     }
 
@@ -53,26 +53,27 @@ public class ShopInfo {
         return this.name;
     }
 
-    @JsonProperty("servers")
-    public List<BasicServerInfo> getServers() {
-        return this.servers;
+    @JsonProperty("services")
+    public List<ServiceInfo> getServices() {
+        return this.services;
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", ShopInfo.class.getSimpleName() + "[", "]")
-                .add("id='" + this.id + "'")
+        return new StringJoiner(", ", ServerInfo.class.getSimpleName() + "[", "]")
+                .add("id=" + this.id)
                 .add("name='" + this.name + "'")
-                .add("servers=" + this.servers)
+                .add("services=" + this.services)
                 .toString();
     }
 
     @JsonIgnore
-    public static ShopInfo get(ApiContext apiContext) throws ApiException {
+    public static ServerInfo get(ApiContext apiContext, int serverId) throws ApiException {
 
         Map<String, String> params = new HashMap<>();
         params.put("shopId", apiContext.getShopId());
+        params.put("serverId", String.valueOf(serverId));
 
-        return ApiResource.get(apiContext, "/{shopId}", ShopInfo.class, params);
+        return ApiResource.get(apiContext, "/{shopId}/server/{serverId}", ServerInfo.class, params);
     }
 }

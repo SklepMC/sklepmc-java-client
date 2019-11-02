@@ -5,7 +5,7 @@
 
     <groupId>pl.sklepmc</groupId>
     <artifactId>sklepmc-api</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>SklepMC API</name>
 

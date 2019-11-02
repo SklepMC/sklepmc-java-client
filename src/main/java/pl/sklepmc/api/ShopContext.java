@@ -20,7 +20,7 @@ package pl.sklepmc.api;
 
 import okhttp3.OkHttpClient;
 
-public class ApiContext {
+public class ShopContext {
 
     private static final String DEFAULT_MAIN_URL = "https://www.sklepmc.pl/api";
 
@@ -30,7 +30,7 @@ public class ApiContext {
     private String mainUrl;
     private OkHttpClient client;
 
-    public ApiContext(String shopId, String secret) {
+    public ShopContext(String shopId, String secret) {
         this.shopId = shopId;
         this.secret = secret;
         this.client = new OkHttpClient();

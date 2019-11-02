@@ -21,7 +21,7 @@ package pl.sklepmc.api.shop;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pl.sklepmc.api.ApiContext;
+import pl.sklepmc.api.ShopContext;
 import pl.sklepmc.api.ApiException;
 import pl.sklepmc.api.ApiResource;
 
@@ -68,7 +68,7 @@ public class ServerInfo {
     }
 
     @JsonIgnore
-    public static ServerInfo get(ApiContext apiContext, int serverId) throws ApiException {
+    public static ServerInfo get(ShopContext apiContext, int serverId) throws ApiException {
 
         Map<String, String> params = new HashMap<>();
         params.put("shopId", apiContext.getShopId());

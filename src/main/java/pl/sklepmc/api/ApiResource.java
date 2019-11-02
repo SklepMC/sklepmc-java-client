@@ -35,44 +35,44 @@ public abstract class ApiResource {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-    public static <T> T get(ApiContext apiContext, String paty, Class<? extends T> clazz) {
+    public static <T> T get(ShopContext apiContext, String paty, Class<? extends T> clazz) {
         return get(apiContext, paty, clazz, null);
     }
 
-    public static <T> T get(ApiContext apiContext, String path, Class<? extends T> clazz, Map<String, String> params) {
+    public static <T> T get(ShopContext apiContext, String path, Class<? extends T> clazz, Map<String, String> params) {
         return request(apiContext, path, RequestMethod.GET, clazz, params);
     }
 
-    public static <T> T post(ApiContext apiContext, String path, Object body, Class<? extends T> clazz) {
+    public static <T> T post(ShopContext apiContext, String path, Object body, Class<? extends T> clazz) {
         return post(apiContext, path, body, clazz, null);
     }
 
-    public static <T> T post(ApiContext apiContext, String path, Object body, Class<? extends T> clazz,
+    public static <T> T post(ShopContext apiContext, String path, Object body, Class<? extends T> clazz,
                              Map<String, String> params) {
         return request(apiContext, path, RequestMethod.POST, clazz, params, body);
     }
 
-    public static <T> T post(ApiContext apiContext, String path, Object body, Class<? extends T> clazz,
+    public static <T> T post(ShopContext apiContext, String path, Object body, Class<? extends T> clazz,
                              Map<String, String> params, boolean raw) {
         return request(apiContext, path, RequestMethod.POST, clazz, params, body, raw, raw);
     }
 
-    public static <T> T post(ApiContext apiContext, String path, Object body, Class<? extends T> clazz,
+    public static <T> T post(ShopContext apiContext, String path, Object body, Class<? extends T> clazz,
                              Map<String, String> params, boolean rawInput, boolean rawOutput) {
         return request(apiContext, path, RequestMethod.POST, clazz, params, body, rawInput, rawOutput);
     }
 
-    public static <T> T request(ApiContext apiContext, String path, RequestMethod method, Class<? extends T> clazz,
+    public static <T> T request(ShopContext apiContext, String path, RequestMethod method, Class<? extends T> clazz,
                                 Map<String, String> params) {
         return request(apiContext, path, method, clazz, params, "");
     }
 
-    public static <T> T request(ApiContext apiContext, String path, RequestMethod method, Class<? extends T> clazz,
+    public static <T> T request(ShopContext apiContext, String path, RequestMethod method, Class<? extends T> clazz,
                                 Map<String, String> params, Object body) {
         return request(apiContext, path, method, clazz, params, body, false, false);
     }
 
-    public static <T> T request(ApiContext apiContext, String path, RequestMethod method, Class<? extends T> clazz,
+    public static <T> T request(ShopContext apiContext, String path, RequestMethod method, Class<? extends T> clazz,
                                 Map<String, String> params, Object body, boolean rawInput, boolean rawOutput) {
 
         OkHttpClient client = apiContext.getClient();

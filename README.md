@@ -8,34 +8,34 @@ String shopId = "TWOJE-ID-SKLEPU";
 String secret = "TWOJ-KLUCZ-PRYWATNY";
 
 // tworzymy context (w większości przypadków należy go gdzieś zapisać)
-ApiContext apiContext = new ApiContext(shopId, secret);
+ShopContext shopContext = new ShopContext(shopId, secret);
 ```
 
 ## Pobieranie podstawowych informacji
 ```java
 // informacje o sklepie
-ShopInfo shop = ShopInfo.get(apiContext);
+ShopInfo shop = ShopInfo.get(shopContext);
 System.out.println(shop);
 
 // informacje o serwerze
 int serverId = 1234;
-ServerInfo server = ServerInfo.get(apiContext, serverId);
+ServerInfo server = ServerInfo.get(shopContext, serverId);
 System.out.println(server);
 
 // informacje o usłudze
 int serviceId = 4321;
-ServiceInfo service = ServiceInfo.get(apiContext, serviceId);
+ServiceInfo service = ServiceInfo.get(shopContext, serviceId);
 System.out.println(service);
 
 // informacje o transakcji
 String transactionId = "SMC-ABCDFGHI";
-TransactionInfo transaction = TransactionInfo.get(apiContext, transactionId);
+TransactionInfo transaction = TransactionInfo.get(shopContext, transactionId);
 System.out.println(transaction);
 ```
 
 ## Pobieranie i wykonywanie transakcji
 ```java
-ExecutionInfo executionInfo = ExecutionInfo.get(apiContext, serverId);
+ExecutionInfo executionInfo = ExecutionInfo.get(shopContext, serverId);
 List<ExecutionTaskInfo> executionTasks = executionInfo.getExecutionTasks();
 
 task_execution:
@@ -66,7 +66,7 @@ for (ExecutionTaskInfo executionTask : executionTasks) {
     // zmieniamy status transakcji na zakończony (COMPLETED)
     boolean updated;
     try {
-        updated = TransactionInfo.updateStatus(apiContext, transactionId, TransactionInfo.TransactionStatus.COMPLETED.name());
+        updated = TransactionInfo.updateStatus(shopContext, transactionId, TransactionInfo.TransactionStatus.COMPLETED.name());
     } catch (ApiException exception) {
         ApiError apiError = exception.getApiError();
         System.out.println("Błąd API: " + apiError.getType() + ", " + apiError.getMessage());

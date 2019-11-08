@@ -20,14 +20,19 @@ package pl.sklepmc.api;
 
 import okhttp3.OkHttpClient;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class ShopContext {
 
+    private static final String DEFAULT_SHOP_URL = "https://www.sklepmc.pl/shop/{SHOP_ID}";
     private static final String DEFAULT_MAIN_URL = "https://www.sklepmc.pl/api";
 
     private final String shopId;
     private final String secret;
 
     private String mainUrl;
+    private String shopUrl;
     private OkHttpClient client;
 
     public ShopContext(String shopId, String secret) {
@@ -35,6 +40,7 @@ public class ShopContext {
         this.secret = secret;
         this.client = new OkHttpClient();
         this.mainUrl = DEFAULT_MAIN_URL;
+        this.shopUrl = DEFAULT_SHOP_URL;
     }
 
     protected String getSecret() {
@@ -55,5 +61,30 @@ public class ShopContext {
 
     public String getShopId() {
         return this.shopId;
+    }
+
+    public String getShopUrl() {
+        return this.shopUrl;
+    }
+
+    public void setShopUrl(String shopUrl) {
+        this.shopUrl = shopUrl;
+    }
+
+    public String generatePaymentUrl(int serviceId, String paymentMethod, String nick, String charset) {
+
+        try {
+            nick = URLEncoder.encode(nick, charset);
+        } catch (UnsupportedEncodingException exception) {
+            throw new IllegalArgumentException("Failed to encode nick with " + charset + " encoding!", exception);
+        }
+
+        String url = this.getShopUrl() + "/buy/{SERVICE_ID}/{PAYMENT_METHOD}?nick={NICK}";
+        url = ApiResource.replace(url, "{SHOP_ID}", this.getShopId());
+        url = ApiResource.replace(url, "{SERVICE_ID}", String.valueOf(serviceId));
+        url = ApiResource.replace(url, "{PAYMENT_METHOD}", paymentMethod);
+        url = ApiResource.replace(url, "{NICK}", nick);
+
+        return url;
     }
 }

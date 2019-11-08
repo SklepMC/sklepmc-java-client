@@ -161,7 +161,7 @@ public abstract class ApiResource {
         return (response.body() == null) ? null : response.body().bytes();
     }
 
-    private static String replace(String text, String searchString, String replacement) {
+    public static String replace(String text, String searchString, String replacement) {
         if ((text == null) || (searchString == null) || (replacement == null)) {
             return text;
         }

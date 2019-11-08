@@ -35,7 +35,7 @@ System.out.println(transaction);
 
 ## Pobieranie i wykonywanie transakcji
 ```java
-ExecutionInfo execution = ExecutionInfo.get(apiContext, serverId);
+ExecutionInfo executionInfo = ExecutionInfo.get(apiContext, serverId);
 List<ExecutionTaskInfo> executionTasks = executionInfo.getExecutionTasks();
 
 task_execution:
@@ -51,10 +51,11 @@ for (ExecutionTaskInfo executionTask : executionTasks) {
         // komenda wymaga aby cel (gracz którego dotyczy) był online, 
         // sprawdzamy czy gracz jest na serwerze
         if (requireOnline) {
-            Player playerExact = Bukkit.getPlayerExact(command.getTarget());
-            if (playerExact == null) {
-                continue task_execution;
-            }
+            // TODO: sprawdzanie online, zalezne od platformy
+            // Player playerExact = Bukkit.getPlayerExact(command.getTarget());
+            // if (playerExact == null) {
+            //    continue task_execution;
+            // }
         }
 
         String commandText = command.getText();

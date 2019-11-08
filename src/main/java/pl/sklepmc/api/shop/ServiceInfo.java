@@ -34,12 +34,17 @@ public class ServiceInfo {
     private final int id;
     private final String name;
     private final ServiceDescriptionInfo description;
+    private final Map<String, Double> prices;
 
     @JsonCreator
-    public ServiceInfo(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("description") ServiceDescriptionInfo description) {
+    public ServiceInfo(@JsonProperty("id") int id,
+                       @JsonProperty("name") String name,
+                       @JsonProperty("description") ServiceDescriptionInfo description,
+                       @JsonProperty("prices") Map<String, Double> prices) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.prices = prices;
     }
 
     @JsonProperty("id")
@@ -57,12 +62,18 @@ public class ServiceInfo {
         return this.description;
     }
 
+    @JsonProperty("prices")
+    public Map<String, Double> getPrices() {
+        return this.prices;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", ServiceInfo.class.getSimpleName() + "[", "]")
                 .add("id=" + this.id)
                 .add("name='" + this.name + "'")
                 .add("description=" + this.description)
+                .add("prices=" + this.prices)
                 .toString();
     }
 

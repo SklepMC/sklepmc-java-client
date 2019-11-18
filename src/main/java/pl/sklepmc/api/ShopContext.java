@@ -87,4 +87,22 @@ public class ShopContext {
 
         return url;
     }
+
+    public String generatePaymentUrl(int serviceId, String paymentMethod, String nick, String giftTo, String charset) {
+
+        try {
+            nick = URLEncoder.encode(nick, charset);
+        } catch (UnsupportedEncodingException exception) {
+            throw new IllegalArgumentException("Failed to encode nick with " + charset + " encoding!", exception);
+        }
+
+        String url = this.getShopUrl() + "/buy/{SERVICE_ID}/{PAYMENT_METHOD}?nick={NICK}&gift_to={GIFT_TO}";
+        url = ApiResource.replace(url, "{SHOP_ID}", this.getShopId());
+        url = ApiResource.replace(url, "{SERVICE_ID}", String.valueOf(serviceId));
+        url = ApiResource.replace(url, "{PAYMENT_METHOD}", paymentMethod);
+        url = ApiResource.replace(url, "{NICK}", nick);
+        url = ApiResource.replace(url, "{GIFT_TO}", giftTo);
+
+        return url;
+    }
 }

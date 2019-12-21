@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pl.sklepmc</groupId>
-    <artifactId>sklepmc-api</artifactId>
+    <artifactId>sklepmc-client</artifactId>
     <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>SklepMC API</name>
+    <name>SklepMC Client</name>
 
     <dependencies>
         <dependency>

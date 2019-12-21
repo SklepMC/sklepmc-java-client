@@ -1,4 +1,4 @@
-# SklepMC Java API
+# SklepMC Java Client
 Implementacja publicznego API SklepMC w Javie.
 
 ## Przykładowe użycie

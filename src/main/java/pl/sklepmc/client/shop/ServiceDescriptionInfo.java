@@ -1,5 +1,5 @@
 /*
- * SklepMC Java API
+ * SklepMC Java Client
  * Copyright (C) 2019 SklepMC
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,39 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package pl.sklepmc.api.shop;
+package pl.sklepmc.client.shop;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.StringJoiner;
 
-public class ExecutionCommandInfo {
+public class ServiceDescriptionInfo {
 
-    private final String text;
-    private final String target;
+    private final String source;
+    private final String compiled;
 
     @JsonCreator
-    public ExecutionCommandInfo(@JsonProperty("text") String text, @JsonProperty("target") String target) {
-        this.text = text;
-        this.target = target;
+    public ServiceDescriptionInfo(@JsonProperty("source") String source, @JsonProperty("compiled") String compiled) {
+        this.source = source;
+        this.compiled = compiled;
     }
 
-    @JsonProperty("text")
-    public String getText() {
-        return this.text;
+    @JsonProperty("source")
+    public String getSource() {
+        return this.source;
     }
 
-    @JsonProperty("target")
-    public String getTarget() {
-        return this.target;
+    @JsonProperty("compiled")
+    public String getCompiled() {
+        return this.compiled;
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", ExecutionCommandInfo.class.getSimpleName() + "[", "]")
-                .add("text='" + this.text + "'")
-                .add("target='" + this.target + "'")
+        return new StringJoiner(", ", ServiceDescriptionInfo.class.getSimpleName() + "[", "]")
+                .add("source='" + this.source + "'")
+                .add("compiled='" + this.compiled + "'")
                 .toString();
     }
 }

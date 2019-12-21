@@ -1,5 +1,5 @@
 /*
- * SklepMC Java API
+ * SklepMC Java Client
  * Copyright (C) 2019 SklepMC
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,31 +16,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package pl.sklepmc.api.shop;
+package pl.sklepmc.client.shop;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pl.sklepmc.api.ShopContext;
-import pl.sklepmc.api.ApiException;
-import pl.sklepmc.api.ApiResource;
+import pl.sklepmc.client.ShopContext;
+import pl.sklepmc.client.ApiException;
+import pl.sklepmc.client.ApiResource;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-public class ServerInfo {
+public class ServiceInfo {
 
     private final int id;
     private final String name;
-    private final List<ServiceInfo> services;
+    private final ServiceDescriptionInfo description;
+    private final Map<String, Double> prices;
 
     @JsonCreator
-    public ServerInfo(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("services") List<ServiceInfo> services) {
+    public ServiceInfo(@JsonProperty("id") int id,
+                       @JsonProperty("name") String name,
+                       @JsonProperty("description") ServiceDescriptionInfo description,
+                       @JsonProperty("prices") Map<String, Double> prices) {
         this.id = id;
         this.name = name;
-        this.services = services;
+        this.description = description;
+        this.prices = prices;
     }
 
     @JsonProperty("id")
@@ -53,27 +57,33 @@ public class ServerInfo {
         return this.name;
     }
 
-    @JsonProperty("services")
-    public List<ServiceInfo> getServices() {
-        return this.services;
+    @JsonProperty("description")
+    public ServiceDescriptionInfo getDescription() {
+        return this.description;
+    }
+
+    @JsonProperty("prices")
+    public Map<String, Double> getPrices() {
+        return this.prices;
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", ServerInfo.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", ServiceInfo.class.getSimpleName() + "[", "]")
                 .add("id=" + this.id)
                 .add("name='" + this.name + "'")
-                .add("services=" + this.services)
+                .add("description=" + this.description)
+                .add("prices=" + this.prices)
                 .toString();
     }
 
     @JsonIgnore
-    public static ServerInfo get(ShopContext apiContext, int serverId) throws ApiException {
+    public static ServiceInfo get(ShopContext apiContext, int serviceId) throws ApiException {
 
         Map<String, String> params = new HashMap<>();
         params.put("shopId", apiContext.getShopId());
-        params.put("serverId", String.valueOf(serverId));
+        params.put("serviceId", String.valueOf(serviceId));
 
-        return ApiResource.get(apiContext, "/{shopId}/server/{serverId}", ServerInfo.class, params);
+        return ApiResource.get(apiContext, "/{shopId}/service/{serviceId}", ServiceInfo.class, params);
     }
 }

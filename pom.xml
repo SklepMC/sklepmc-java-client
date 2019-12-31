@@ -77,19 +77,23 @@
                         </relocation>
                         <relocation>
                             <pattern>okio.</pattern>
-                            <shadedPattern>pl.daffit.sklepmc.api.okio.</shadedPattern>
+                            <shadedPattern>pl.daffit.sklepmc.client.okio.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>kotlin.</pattern>
-                            <shadedPattern>pl.daffit.sklepmc.api.kotlin.</shadedPattern>
+                            <shadedPattern>pl.daffit.sklepmc.client.kotlin.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.fasterxml.jackson.core.</pattern>
-                            <shadedPattern>pl.daffit.sklepmc.api.com.fasterxml.jackson.core.</shadedPattern>
+                            <shadedPattern>pl.daffit.sklepmc.client.com.fasterxml.jackson.core.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.fasterxml.jackson.databind.</pattern>
-                            <shadedPattern>pl.daffit.sklepmc.api.com.fasterxml.jackson.databind.</shadedPattern>
+                            <shadedPattern>pl.daffit.sklepmc.client.com.fasterxml.jackson.databind.</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.fasterxml.jackson.annotation.</pattern>
+                            <shadedPattern>pl.daffit.sklepmc.client.com.fasterxml.jackson.annotation.</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

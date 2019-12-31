@@ -73,27 +73,27 @@
                     <relocations>
                         <relocation>
                             <pattern>okhttp3.</pattern>
-                            <shadedPattern>pl.daffit.sklepmc.api.okhttp3.</shadedPattern>
+                            <shadedPattern>pl.sklepmc.api.okhttp3.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>okio.</pattern>
-                            <shadedPattern>pl.daffit.sklepmc.client.okio.</shadedPattern>
+                            <shadedPattern>pl.sklepmc.client.okio.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>kotlin.</pattern>
-                            <shadedPattern>pl.daffit.sklepmc.client.kotlin.</shadedPattern>
+                            <shadedPattern>pl.sklepmc.client.kotlin.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.fasterxml.jackson.core.</pattern>
-                            <shadedPattern>pl.daffit.sklepmc.client.com.fasterxml.jackson.core.</shadedPattern>
+                            <shadedPattern>pl.sklepmc.client.com.fasterxml.jackson.core.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.fasterxml.jackson.databind.</pattern>
-                            <shadedPattern>pl.daffit.sklepmc.client.com.fasterxml.jackson.databind.</shadedPattern>
+                            <shadedPattern>pl.sklepmc.client.com.fasterxml.jackson.databind.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.fasterxml.jackson.annotation.</pattern>
-                            <shadedPattern>pl.daffit.sklepmc.client.com.fasterxml.jackson.annotation.</shadedPattern>
+                            <shadedPattern>pl.sklepmc.client.com.fasterxml.jackson.annotation.</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

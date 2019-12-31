@@ -73,7 +73,7 @@
                     <relocations>
                         <relocation>
                             <pattern>okhttp3.</pattern>
-                            <shadedPattern>pl.sklepmc.api.okhttp3.</shadedPattern>
+                            <shadedPattern>pl.sklepmc.client.okhttp3.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>okio.</pattern>
